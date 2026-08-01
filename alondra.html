@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para mi morenita hermosa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night-1:#181229;
+    --night-2:#241a3d;
+    --night-3:#33224f;
+    --plum:#4a2b52;
+    --gold:#e8b86d;
+    --gold-soft:#f3d9a4;
+    --rose:#e88a9a;
+    --cream:#f7ecd9;
+    --ink:#2a1e3a;
+    --line: rgba(232,184,109,0.35);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(232,138,154,0.10), transparent 45%),
+      radial-gradient(ellipse at 80% 0%, rgba(232,184,109,0.08), transparent 40%),
+      linear-gradient(180deg, var(--night-1) 0%, var(--night-2) 45%, var(--plum) 100%);
+    color:var(--cream);
+    font-family:'Cormorant Garamond', serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ---------- Estrellas ambientales ---------- */
+  #stars{
+    position:fixed; inset:0; width:100%; height:100%;
+    pointer-events:none; z-index:0;
+  }
+  .star{
+    position:absolute; border-radius:50%;
+    background:var(--gold-soft);
+    opacity:0.6;
+    animation: twinkle 4s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{ opacity:0.15; transform:scale(0.8);}
+    50%{ opacity:0.9; transform:scale(1.15);}
+  }
+
+  .petal{
+    position:fixed; top:-40px; z-index:1; pointer-events:none;
+    font-size:16px; color:var(--rose);
+    animation: fall linear infinite;
+    opacity:0.85;
+  }
+  @keyframes fall{
+    0%{ transform:translateY(-5vh) translateX(0) rotate(0deg); opacity:0;}
+    10%{opacity:0.9;}
+    100%{ transform:translateY(105vh) translateX(40px) rotate(300deg); opacity:0;}
+  }
+
+  /* ---------- Portada / Sobre ---------- */
+  #cover{
+    position:fixed; inset:0; z-index:50;
+    display:flex; align-items:center; justify-content:center;
+    background: radial-gradient(ellipse at 50% 30%, var(--night-3), var(--night-1) 75%);
+    transition: opacity 1.1s ease, visibility 1.1s ease;
+  }
+  #cover.hide{
+    opacity:0; visibility:hidden;
+  }
+
+  .envelope-wrap{
+    display:flex; flex-direction:column; align-items:center; gap:28px;
+    text-align:center; padding:20px;
+  }
+
+  .eyebrow{
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    font-family:'Playfair Display', serif;
+    font-size:12px;
+    color:var(--gold);
+    opacity:0.85;
+  }
+
+  .envelope{
+    width:min(78vw, 260px);
+    height:min(56vw, 180px);
+    position:relative;
+    cursor:pointer;
+    filter:drop-shadow(0 10px 30px rgba(0,0,0,0.45));
+  }
+  .env-body{
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, #efd9b0, #e3c186);
+    border-radius:6px;
+    border:1px solid rgba(255,255,255,0.4);
+  }
+  .env-flap{
+    position:absolute; top:0; left:0; right:0; height:100%;
+    background: linear-gradient(135deg, #f3e2bd, #dcb679);
+    clip-path: polygon(0 0, 50% 55%, 100% 0);
+    transform-origin: top;
+    transition: transform 0.9s cubic-bezier(.6,-0.2,.3,1.4);
+    border-radius:6px 6px 0 0;
+  }
+  .envelope.open .env-flap{
+    transform: rotateX(150deg);
+  }
+  .env-seal{
+    position:absolute; top:46%; left:50%;
+    transform:translate(-50%,-50%);
+    width:46px; height:46px; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, var(--rose), #9c3b52);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--cream); font-family:'Dancing Script', cursive; font-size:22px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.4);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index:3;
+  }
+  .envelope.open .env-seal{ opacity:0; transform:translate(-50%,-50%) scale(0.4);}
+
+  .open-hint{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:16px;
+    color:var(--gold-soft);
+    opacity:0.8;
+    animation: pulseHint 2.2s ease-in-out infinite;
+  }
+  @keyframes pulseHint{
+    0%,100%{opacity:0.5;} 50%{opacity:0.95;}
+  }
+
+  /* ---------- Contenido principal ---------- */
+  main{
+    position:relative; z-index:2;
+    max-width:760px; margin:0 auto;
+    padding: 90px 24px 140px;
+  }
+
+  header.hero{
+    text-align:center;
+    margin-bottom:90px;
+  }
+  .hero-name{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:clamp(46px, 10vw, 84px);
+    color:var(--gold-soft);
+    margin:0;
+    letter-spacing:0.01em;
+    line-height:1;
+    text-shadow: 0 0 40px rgba(232,184,109,0.25);
+  }
+  .hero-sub{
+    font-family:'Dancing Script', cursive;
+    font-size: clamp(22px, 5vw, 32px);
+    color:var(--rose);
+    margin-top:10px;
+  }
+
+  .days-badge{
+    display:inline-flex; align-items:center; gap:10px;
+    margin-top:34px;
+    padding:10px 22px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    font-family:'Playfair Display', serif;
+    font-size:14px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--gold);
+    background:rgba(255,255,255,0.02);
+  }
+  .days-badge b{
+    font-family:'Playfair Display', serif;
+    color:var(--cream);
+    font-size:16px;
+  }
+
+  /* Carta */
+  .letter{
+    position:relative;
+    margin: 0 auto;
+  }
+
+  .line{
+    width:56px; height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 60px;
+  }
+
+  .reveal{
+    opacity:0;
+    transform: translateY(26px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.show{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  p.para{
+    font-size: clamp(19px, 2.6vw, 23px);
+    line-height:1.75;
+    color: var(--cream);
+    margin: 0 0 34px;
+    opacity:0.95;
+  }
+  p.para::first-letter{
+    font-family:'Playfair Display', serif;
+    font-size:1.5em;
+    color:var(--gold);
+  }
+
+  .signature{
+    margin-top: 70px;
+    text-align:center;
+  }
+  .signature .to{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:18px;
+    color:var(--gold-soft);
+    opacity:0.85;
+  }
+  .signature .word{
+    font-family:'Dancing Script', cursive;
+    font-size: clamp(34px, 8vw, 56px);
+    color:var(--rose);
+    margin-top:6px;
+  }
+
+  /* Player */
+  #player-dock{
+    position:fixed; left:50%; bottom:22px; transform:translateX(-50%);
+    z-index:40;
+    display:flex; align-items:center; gap:12px;
+    padding:10px 18px;
+    background: rgba(24,18,41,0.72);
+    border:1px solid var(--line);
+    border-radius:999px;
+    backdrop-filter: blur(8px);
+    box-shadow:0 10px 30px rgba(0,0,0,0.35);
+    opacity:0; transform:translateX(-50%) translateY(20px);
+    transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+  }
+  #player-dock.show{ opacity:1; transform:translateX(-50%) translateY(0);}
+  #player-dock .note{
+    font-family:'Playfair Display', serif;
+    font-size:12px;
+    letter-spacing:0.08em;
+    color:var(--gold-soft);
+    white-space:nowrap;
+  }
+  #yt-frame-wrap{
+    width:0; height:0; overflow:hidden;
+  }
+
+  footer{
+    text-align:center;
+    padding: 40px 20px 20px;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:14px;
+    color: rgba(247,236,217,0.45);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ transition:none; }
+    .petal, .star{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+
+<div id="cover">
+  <div class="envelope-wrap">
+    <div class="eyebrow">Para Alondra</div>
+    <div class="envelope" id="envelope">
+      <div class="env-body"></div>
+      <div class="env-seal">A</div>
+      <div class="env-flap"></div>
+    </div>
+    <div class="open-hint">toca el sobre para abrirlo</div>
+  </div>
+</div>
+
+<main>
+
+  <header class="hero reveal" id="hero">
+    <p class="hero-sub">mi morenita hermosa</p>
+    <h1 class="hero-name">Alondra</h1>
+    <div class="days-badge">17 días juntos <b>&nbsp;·&nbsp;</b> y siguen contando</div>
+  </header>
+
+  <section class="letter">
+    <div class="line reveal"></div>
+
+    <p class="para reveal">No sé si algún día encuentre las palabras exactas para decirte todo lo que siento por ti, pero quiero intentarlo porque de verdad te mereces saber lo importante que eres para mí.</p>
+
+    <p class="para reveal">Desde que llegaste a mi vida, mis días tienen algo diferente. Ya no espero con las mismas ganas que termine el día, ahora espero con emoción el momento de hablar contigo, de escuchar tu voz o simplemente recibir un mensaje tuyo. Sin darte cuenta, te convertiste en una parte muy bonita de mi rutina.</p>
+
+    <p class="para reveal">Quiero darte las gracias por ser la persona que eres. Gracias por cuidarme, por preguntarme cómo estoy, por hacerme sentir importante y por demostrarme que los pequeños detalles son los que más valen. Cada palabra tuya tiene un lugar especial en mi corazón.</p>
+
+    <p class="para reveal">Hay muchísimas cosas que amo de ti. Amo tu voz porque tiene una paz que no encuentro en ningún otro lado. Amo tu risa porque automáticamente me hace sonreír. Amo la forma en que me hablas, la manera en que me haces sentir seguro y cómo, sin darte cuenta, haces que cualquier problema se sienta un poquito más pequeño.</p>
+
+    <div class="signature reveal">
+      <div class="to">con todo mi corazón, para ti</div>
+      <div class="word">mi morenita hermosa</div>
+    </div>
+  </section>
+
+</main>
+
+<div id="player-dock">
+  <span class="note">🎵 Ojalá — Milo J &amp; Bhavi</span>
+</div>
+<div id="yt-frame-wrap"></div>
+
+<footer>17 días, y cada uno contigo se siente como el primero.</footer>
+
+<script>
+  // Estrellas
+  const starsWrap = document.getElementById('stars');
+  const starCount = window.innerWidth < 600 ? 40 : 70;
+  for(let i=0;i<starCount;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random()*2 + 1;
+    s.style.width = size+'px';
+    s.style.height = size+'px';
+    s.style.top = Math.random()*100+'vh';
+    s.style.left = Math.random()*100+'vw';
+    s.style.animationDelay = (Math.random()*4)+'s';
+    s.style.animationDuration = (3+Math.random()*3)+'s';
+    starsWrap.appendChild(s);
+  }
+
+  // Petalos flotando
+  function spawnPetal(){
+    const p = document.createElement('div');
+    p.className='petal';
+    p.textContent = Math.random() > 0.4 ? '❀' : '✧';
+    p.style.left = Math.random()*100+'vw';
+    p.style.fontSize = (10+Math.random()*12)+'px';
+    p.style.animationDuration = (7+Math.random()*8)+'s';
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(), 16000);
+  }
+  setInterval(spawnPetal, 900);
+  for(let i=0;i<6;i++) setTimeout(spawnPetal, i*400);
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('show');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.2});
+  revealEls.forEach(el=>io.observe(el));
+
+  // Sobre -> abrir pagina + iniciar cancion
+  const envelope = document.getElementById('envelope');
+  const cover = document.getElementById('cover');
+  const dock = document.getElementById('player-dock');
+  let opened = false;
+
+  function openLetter(){
+    if(opened) return;
+    opened = true;
+    envelope.classList.add('open');
+
+    setTimeout(()=>{
+      cover.classList.add('hide');
+      document.getElementById('hero').classList.add('show');
+      loadSong();
+      dock.classList.add('show');
+    }, 750);
+  }
+
+  function loadSong(){
+    const wrap = document.getElementById('yt-frame-wrap');
+    const iframe = document.createElement('iframe');
+    iframe.width = '0';
+    iframe.height = '0';
+    iframe.style.border = '0';
+    iframe.allow = 'autoplay; encrypted-media';
+    iframe.src = 'https://www.youtube.com/embed/yonyUJPdJAQ?autoplay=1&start=0';
+    wrap.appendChild(iframe);
+  }
+
+  envelope.addEventListener('click', openLetter);
+</script>
+
+</body>
+</html>
